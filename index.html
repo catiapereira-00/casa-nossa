@@ -31,6 +31,63 @@
   .nav-label { font-size: 0.58rem; font-weight: 500; color: var(--soft); text-transform: uppercase; letter-spacing: 0.06em; }
   .nav-btn.active .nav-label { color: var(--catia); }
   .nav-btn.active .nav-icon { transform: scale(1.1); }
+  .mario-block { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 0.5rem; cursor: pointer; transition: box-shadow 0.15s; }
+  .mario-block:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+  .mario-block-inner { display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1rem; }
+  .mario-stripe { width: 3px; align-self: stretch; min-height: 40px; border-radius: 0; flex-shrink: 0; }
+  .mario-time { font-size: 0.63rem; font-weight: 600; color: var(--soft); letter-spacing: 0.06em; flex-shrink: 0; width: 36px; text-align: right; }
+  .mario-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .mario-content { flex: 1; min-width: 0; }
+  .mario-title { font-size: 0.85rem; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .mario-title.done-text { text-decoration: line-through; color: var(--soft); }
+  .mario-sub { font-size: 0.71rem; color: var(--muted); font-weight: 300; margin-top: 0.1rem; line-height: 1.4; }
+  .mario-tag { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.13rem 0.42rem; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+  .mario-check { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 0.62rem; color: transparent; transition: all 0.2s; flex-shrink: 0; }
+  .mario-block.done .mario-check { background: var(--mario); border-color: var(--mario); color: white; }
+  .mario-block.done .mario-stripe { opacity: 0.3; }
+  .mario-block.couple { border-color: rgba(219,39,119,0.18); }
+  .mario-block.couple .mario-title { color: var(--catia); }
+  .mario-tabs { display: flex; gap: 0.3rem; background: var(--warm); border-radius: 14px; padding: 0.3rem; margin-bottom: 1.2rem; }
+  .mario-tab { flex: 1; text-align: center; padding: 0.42rem 0.2rem; border-radius: 10px; font-size: 0.66rem; font-weight: 500; cursor: pointer; color: var(--muted); transition: all 0.2s; white-space: nowrap; }
+  .mario-tab.active { background: white; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .mario-subview { display: none; }
+  .mario-subview.active { display: block; }
+  .info-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 0.6rem; }
+  .info-card-header { display: flex; align-items: center; gap: 0.9rem; padding: 0.85rem 1.1rem; cursor: pointer; }
+  .info-card-header:hover { background: #FAFAFA; }
+  .info-emoji { font-size: 1.3rem; flex-shrink: 0; }
+  .info-card-title { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; flex: 1; }
+  .info-chevron { font-size: 0.65rem; color: var(--soft); transition: transform 0.25s; }
+  .info-card.open .info-chevron { transform: rotate(180deg); }
+  .info-card-body { display: none; border-top: 1px solid var(--border); padding: 0.9rem 1.1rem; background: #FDFCFC; }
+  .info-card.open .info-card-body { display: block; }
+  .info-list { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.5rem; }
+  .info-item { display: flex; gap: 0.5rem; font-size: 0.78rem; color: var(--muted); font-weight: 300; line-height: 1.4; }
+  .info-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .info-note { border-radius: 9px; padding: 0.5rem 0.75rem; font-size: 0.74rem; line-height: 1.5; margin-top: 0.6rem; }
+  .info-note.good { background: var(--green-bg); color: var(--green); }
+  .info-note.warn { background: #FFFBEB; color: #92400E; }
+  .ex-day-m { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 0.5rem; cursor: pointer; }
+  .ex-day-m-header { display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1rem; }
+  .ex-day-m-name { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; flex: 1; }
+  .ex-day-m-type { font-size: 0.6rem; font-weight: 600; padding: 0.12rem 0.45rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .ex-day-m-chevron { font-size: 0.65rem; color: var(--soft); transition: transform 0.25s; }
+  .ex-day-m.open .ex-day-m-chevron { transform: rotate(180deg); }
+  .ex-day-m-body { display: none; border-top: 1px solid var(--border); padding: 0.85rem 1rem; }
+  .ex-day-m.open .ex-day-m-body { display: block; }
+  .ex-items-m { display: flex; flex-direction: column; gap: 0.4rem; }
+  .ex-item-m { display: flex; align-items: center; gap: 0.7rem; background: var(--bg); border-radius: 10px; padding: 0.6rem 0.8rem; cursor: pointer; }
+  .ex-item-m.done { background: var(--green-bg); }
+  .ex-item-m.done .ex-item-m-name { text-decoration: line-through; color: var(--soft); }
+  .ex-check-m { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); background: white; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: transparent; transition: all 0.2s; }
+  .ex-item-m.done .ex-check-m { background: var(--green); border-color: var(--green); color: white; }
+  .ex-item-m-name { font-size: 0.8rem; flex: 1; color: var(--text); }
+  .ex-item-m-sets { font-size: 0.68rem; color: var(--soft); flex-shrink: 0; }
+  .ex-rest-m { font-size: 0.75rem; color: var(--soft); font-style: italic; text-align: center; padding: 0.5rem; }
+  .mario-alert { border-radius: 14px; padding: 0.9rem 1.1rem; margin-bottom: 1.1rem; }
+  .mario-alert-label { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; margin-bottom: 0.3rem; }
+  .mario-alert p { font-size: 0.78rem; font-weight: 300; line-height: 1.6; }
+  .mario-alert p strong { font-weight: 500; }
   .view { display: none; padding: 1rem 1rem 1.5rem; animation: fadeUp 0.3s ease both; }
   .view.active { display: block; }
   .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3rem; }
@@ -56,6 +113,9 @@
   .dpm-bar { flex: 2; height: 4px; background: var(--warm); border-radius: 99px; overflow: hidden; }
   .dpm-fill { height: 100%; background: linear-gradient(90deg, var(--catia), var(--mario)); border-radius: 99px; transition: width 0.4s; }
   .dpm-count { font-size: 0.72rem; color: var(--soft); font-weight: 500; }
+  .section-divider { display: flex; align-items: center; gap: 0.6rem; margin: 0.8rem 0 0.5rem; }
+  .sd-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--soft); font-weight: 600; white-space: nowrap; }
+  .sd-line { flex: 1; height: 1px; background: var(--border); }
   .meal-row-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--soft); font-weight: 600; margin: 0.8rem 0 0.4rem; }
   .meals-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.3rem; margin-bottom: 0.3rem; }
   .meal-day-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft); font-weight: 600; text-align: center; margin-bottom: 0.25rem; }
@@ -97,6 +157,7 @@
 </div>
 
 <div class="view active" id="view-hoje"><div class="loading">⏳ A ligar à base de dados...</div></div>
+
 <div class="view" id="view-semana">
   <div class="section-title">Semana <em>completa</em></div>
   <div class="section-sub">Visão geral dos 7 dias.</div>
@@ -108,16 +169,66 @@
   <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Sábado</div><span class="wdc-type" style="background:#F0FDF4;color:#16A34A">Família 🐕</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#EA580C"></div>Caminhada família + cães 30–45 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#16A34A"></div>Dia de família sem agenda</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>Compras da semana</div><div class="wdc-item"><div class="wdc-dot" style="background:#DB2777"></div>21:00 Noite de casal ♡</div></div></div>
   <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Domingo</div><span class="wdc-type" style="background:#F7FEE7;color:#65A30D">Prep 🥗</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#7C3AED"></div>Mobilidade suave 10 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#65A30D"></div>14:00 Meal prep — 2h</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>21:00 Preparar semana 10 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#D97706"></div>Dormir cedo — 22:30</div></div></div>
 </div>
+
 <div class="view" id="view-refeicoes"><div class="loading">⏳ A carregar...</div></div>
 <div class="view" id="view-tarefas"><div class="loading">⏳ A carregar...</div></div>
 <div class="view" id="view-notas"><div class="loading">⏳ A carregar...</div></div>
 
+<div class="view" id="view-mario">
+  <div class="section-title" style="margin-bottom:0.3rem">Plano do <em style="color:var(--mario)">Mário</em></div>
+  <div class="section-sub">Rotina diária, exercício e colesterol.</div>
+  <div class="mario-tabs">
+    <div class="mario-tab active" onclick="switchMarioTab('rotina')">📋 Rotina</div>
+    <div class="mario-tab" onclick="switchMarioTab('exercicio')">💪 Exercício</div>
+    <div class="mario-tab" onclick="switchMarioTab('colesterol')">❤️ Colesterol</div>
+  </div>
+  <div class="mario-subview active" id="msv-rotina">
+    <div class="day-progress-mini"><span class="dpm-label">Progresso do dia</span><div class="dpm-bar"><div class="dpm-fill" id="mario-prog-fill" style="background:linear-gradient(90deg,var(--mario),#60A5FA)"></div></div><span class="dpm-count" id="mario-prog-count">0/0</span></div>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Manhã em família</div><div class="sd-line"></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:#D97706"></div><div class="mario-time">6:45</div><div class="mario-icon">🌅</div><div class="mario-content"><div class="mario-title">Acordar</div><div class="mario-sub">Início tranquilo — não é preciso alarme cedo como a Cátia.</div></div><div class="mario-tag" style="background:#FFFBEB;color:#D97706">Manhã</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--green)"></div><div class="mario-time">7:00</div><div class="mario-icon">🥣</div><div class="mario-content"><div class="mario-title">Pequeno-almoço do Diogo</div><div class="mario-sub">Preparar e dar de comer enquanto a Cátia se despacha.</div></div><div class="mario-tag" style="background:var(--green-bg);color:var(--green)">Família</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:#D97706"></div><div class="mario-time">7:30</div><div class="mario-icon">🍳</div><div class="mario-content"><div class="mario-title">Pequeno-almoço teu — porridge</div><div class="mario-sub">Aveia com frutos vermelhos. Essencial para o colesterol.</div></div><div class="mario-tag" style="background:#FFFBEB;color:#D97706">Aveia ✓</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--green)"></div><div class="mario-time">8:15</div><div class="mario-icon">🎒</div><div class="mario-content"><div class="mario-title">Levar o Diogo à creche</div><div class="mario-sub">Sair máx 8:30. Aproveita para caminhar um bocado.</div></div><div class="mario-tag" style="background:var(--green-bg);color:var(--green)">8:30</div><div class="mario-check">✓</div></div></div>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Curso</div><div class="sd-line"></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--mario)"></div><div class="mario-time">9:00</div><div class="mario-icon">📚</div><div class="mario-content"><div class="mario-title">Curso</div><div class="mario-sub">Das 9h às 14h. Foco total — acaba em março.</div></div><div class="mario-tag" style="background:var(--mario-bg);color:var(--mario)">5h</div><div class="mario-check">✓</div></div></div>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Tarde</div><div class="sd-line"></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--orange)"></div><div class="mario-time">14:00</div><div class="mario-icon">🍽️</div><div class="mario-content"><div class="mario-title">Almoço — do meal prep</div><div class="mario-sub">Salmão, frango, massa com grão. Pronto do domingo.</div></div><div class="mario-tag" style="background:var(--orange-bg);color:var(--orange)">Almoço</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--mario)"></div><div class="mario-time">14:30</div><div class="mario-icon">📖</div><div class="mario-content"><div class="mario-title">Estudo / tempo pessoal</div><div class="mario-sub">Estudar, descansar. Este tempo é teu — sem culpa.</div></div><div class="mario-tag" style="background:var(--mario-bg);color:var(--mario)">Livre</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--orange)"></div><div class="mario-time">16:00</div><div class="mario-icon">💪</div><div class="mario-content"><div class="mario-title">Exercício — 30 min</div><div class="mario-sub">Antes do Diogo chegar. Ver aba "Exercício".</div></div><div class="mario-tag" style="background:var(--orange-bg);color:var(--orange)">Exercício</div><div class="mario-check">✓</div></div></div>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Família</div><div class="sd-line"></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--green)"></div><div class="mario-time">18:00</div><div class="mario-icon">👶</div><div class="mario-content"><div class="mario-title">Buscar / receber o Diogo</div><div class="mario-sub">Creche ou avós. Jantar dele: sopa + prato simples + fruta.</div></div><div class="mario-tag" style="background:var(--green-bg);color:var(--green)">Família</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--green)"></div><div class="mario-time">19:30</div><div class="mario-icon">🛁</div><div class="mario-content"><div class="mario-title">Banho do Diogo</div><div class="mario-sub">Rotina de banho antes da Cátia chegar.</div></div><div class="mario-tag" style="background:var(--green-bg);color:var(--green)">Família</div><div class="mario-check">✓</div></div></div>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Casal ♡</div><div class="sd-line"></div></div>
+    <div class="mario-block couple" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--catia)"></div><div class="mario-time">21:00</div><div class="mario-icon">🍽️</div><div class="mario-content"><div class="mario-title">Preparar jantar dos dois</div><div class="mario-sub">Enquanto a Cátia adormece o Diogo, preparas o jantar.</div></div><div class="mario-tag" style="background:var(--catia-bg);color:var(--catia)">Casal ♡</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block couple" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--catia)"></div><div class="mario-time">21:30</div><div class="mario-icon">💬</div><div class="mario-content"><div class="mario-title">Check-in do dia ♡</div><div class="mario-sub">10 min só para os dois — sem telemóvel.</div></div><div class="mario-tag" style="background:var(--catia-bg);color:var(--catia)">10 min</div><div class="mario-check">✓</div></div></div>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Noite</div><div class="sd-line"></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--purple)"></div><div class="mario-time">22:00</div><div class="mario-icon">🎮</div><div class="mario-content"><div class="mario-title">Tempo livre — jogar</div><div class="mario-sub">O teu tempo. Terminar às 23:30 para dormir bem.</div></div><div class="mario-tag" style="background:var(--purple-bg);color:var(--purple)">Livre</div><div class="mario-check">✓</div></div></div>
+    <div class="mario-block" onclick="toggleMarioBlock(this)"><div class="mario-block-inner"><div class="mario-stripe" style="background:var(--purple)"></div><div class="mario-time">23:30</div><div class="mario-icon">😴</div><div class="mario-content"><div class="mario-title">Dormir — máx 23:30</div><div class="mario-sub">Sono de qualidade reduz o colesterol. Meta importante.</div></div><div class="mario-tag" style="background:var(--purple-bg);color:var(--purple)">Meta</div><div class="mario-check">✓</div></div></div>
+    <button class="clear-btn" onclick="resetMario()">↺ Reiniciar dia</button>
+  </div>
+  <div class="mario-subview" id="msv-exercicio">
+    <div class="mario-alert" style="background:var(--mario-bg);border:1px solid rgba(37,99,235,0.15)"><div class="mario-alert-label" style="color:var(--mario)">💪 Ponto de partida</div><p style="color:#1e3a8a">3 sessões de 30 min por semana, entre as 16h e as 18h. <strong>Consistência antes de intensidade.</strong></p></div>
+    <div class="ex-day-m" id="exm-seg"><div class="ex-day-m-header" onclick="toggleExDayM('exm-seg')"><div class="ex-day-m-name">Segunda-feira</div><span class="ex-day-m-type" style="background:var(--orange-bg);color:var(--orange)">Força — Pernas</span><div class="ex-day-m-chevron">▼</div></div><div class="ex-day-m-body"><div class="ex-items-m"><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Aquecimento — bicicleta estática</div><div class="ex-item-m-sets">5 min</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Agachamento com peso corporal</div><div class="ex-item-m-sets">3 × 12</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Afundo alternado</div><div class="ex-item-m-sets">3 × 10</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Ponte de glúteos</div><div class="ex-item-m-sets">3 × 15</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Alongamento</div><div class="ex-item-m-sets">5 min</div></div></div></div></div>
+    <div class="ex-day-m" id="exm-ter"><div class="ex-day-m-header" onclick="toggleExDayM('exm-ter')"><div class="ex-day-m-name">Terça-feira</div><span class="ex-day-m-type" style="background:var(--warm);color:var(--muted)">Descanso activo</span><div class="ex-day-m-chevron">▼</div></div><div class="ex-day-m-body"><div class="ex-rest-m">🌿 Recuperação. Caminhada ao levar o Diogo conta!</div></div></div>
+    <div class="ex-day-m" id="exm-qua"><div class="ex-day-m-header" onclick="toggleExDayM('exm-qua')"><div class="ex-day-m-name">Quarta-feira</div><span class="ex-day-m-type" style="background:var(--orange-bg);color:var(--orange)">Força — Tronco</span><div class="ex-day-m-chevron">▼</div></div><div class="ex-day-m-body"><div class="ex-items-m"><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Bicicleta estática</div><div class="ex-item-m-sets">5 min</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Flexões</div><div class="ex-item-m-sets">3 × 10</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Remada com banda elástica</div><div class="ex-item-m-sets">3 × 12</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Prancha de antebraços</div><div class="ex-item-m-sets">3 × 30 seg</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Press ombros com halteres</div><div class="ex-item-m-sets">3 × 10</div></div></div></div></div>
+    <div class="ex-day-m" id="exm-qui"><div class="ex-day-m-header" onclick="toggleExDayM('exm-qui')"><div class="ex-day-m-name">Quinta-feira</div><span class="ex-day-m-type" style="background:var(--warm);color:var(--muted)">Descanso activo</span><div class="ex-day-m-chevron">▼</div></div><div class="ex-day-m-body"><div class="ex-rest-m">🌿 Opcional: 15 min de bicicleta a ritmo suave.</div></div></div>
+    <div class="ex-day-m" id="exm-sex"><div class="ex-day-m-header" onclick="toggleExDayM('exm-sex')"><div class="ex-day-m-name">Sexta-feira</div><span class="ex-day-m-type" style="background:var(--orange-bg);color:var(--orange)">Cardio + Full body</span><div class="ex-day-m-chevron">▼</div></div><div class="ex-day-m-body"><div class="ex-items-m"><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Bicicleta estática</div><div class="ex-item-m-sets">15 min</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Agachamento + press ombros</div><div class="ex-item-m-sets">3 × 10</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Ponte de glúteos</div><div class="ex-item-m-sets">3 × 15</div></div><div class="ex-item-m" onclick="event.stopPropagation();this.classList.toggle('done')"><div class="ex-check-m">✓</div><div class="ex-item-m-name">Prancha lateral</div><div class="ex-item-m-sets">2 × 20 seg</div></div></div></div></div>
+    <div class="ex-day-m" id="exm-sab"><div class="ex-day-m-header" onclick="toggleExDayM('exm-sab')"><div class="ex-day-m-name">Sábado</div><span class="ex-day-m-type" style="background:var(--green-bg);color:var(--green)">Caminhada família 🐕</span><div class="ex-day-m-chevron">▼</div></div><div class="ex-day-m-body"><div class="ex-rest-m">🌿 Caminhada com a Cátia, Diogo e os cães — 30 a 45 min. Conta como treino!</div></div></div>
+  </div>
+  <div class="mario-subview" id="msv-colesterol">
+    <div class="mario-alert" style="background:#FEF2F2;border:1px solid rgba(220,38,38,0.15)"><div class="mario-alert-label" style="color:#DC2626">❤️ Colesterol alto</div><p style="color:#7f1d1d">Responde muito bem a mudanças de estilo de vida. <strong>Alimentação + exercício + sono</strong> em 3 meses há diferença real.</p></div>
+    <div class="info-card" id="mc1"><div class="info-card-header" onclick="this.parentElement.classList.toggle('open')"><div class="info-emoji">🥗</div><div class="info-card-title">O que comer mais</div><div class="info-chevron">▼</div></div><div class="info-card-body"><div class="info-list"><div class="info-item"><div class="info-dot" style="background:var(--green)"></div>Aveia — reduz LDL (já no pequeno-almoço!)</div><div class="info-item"><div class="info-dot" style="background:var(--green)"></div>Salmão 2x/semana — ómega-3</div><div class="info-item"><div class="info-dot" style="background:var(--green)"></div>Grão, feijão, lentilhas — fibra solúvel</div><div class="info-item"><div class="info-dot" style="background:var(--green)"></div>Nozes e frutos secos (30g/dia)</div><div class="info-item"><div class="info-dot" style="background:var(--green)"></div>Azeite em vez de manteiga</div></div><div class="info-note good">✓ O meal prep já foi desenhado a pensar no teu colesterol.</div></div></div>
+    <div class="info-card" id="mc2"><div class="info-card-header" onclick="this.parentElement.classList.toggle('open')"><div class="info-emoji">🚫</div><div class="info-card-title">O que reduzir</div><div class="info-chevron">▼</div></div><div class="info-card-body"><div class="info-list"><div class="info-item"><div class="info-dot" style="background:#DC2626"></div>Fritos e comida frita</div><div class="info-item"><div class="info-dot" style="background:#DC2626"></div>Manteiga e natas em excesso</div><div class="info-item"><div class="info-dot" style="background:#DC2626"></div>Enchidos e carnes processadas</div><div class="info-item"><div class="info-dot" style="background:#DC2626"></div>Bolachas e pastelaria industrial</div></div><div class="info-note warn">⚠️ Não é proibição — é redução. Uma vez por semana não estraga tudo.</div></div></div>
+    <div class="info-card" id="mc3"><div class="info-card-header" onclick="this.parentElement.classList.toggle('open')"><div class="info-emoji">😴</div><div class="info-card-title">Sono e colesterol</div><div class="info-chevron">▼</div></div><div class="info-card-body"><div class="info-list"><div class="info-item"><div class="info-dot" style="background:var(--purple)"></div>Meta: dormir às 23:30 (em vez de 1h)</div><div class="info-item"><div class="info-dot" style="background:var(--purple)"></div>7-8h de sono por noite</div><div class="info-item"><div class="info-dot" style="background:var(--purple)"></div>Ecrã off 30 min antes de dormir</div></div><div class="info-note warn">⚠️ Jogar até à 1h está a sabotar os valores de colesterol.</div></div></div>
+  </div>
+</div>
+
 <div class="bottom-nav">
   <button class="nav-btn active" onclick="switchView('hoje')"><span class="nav-icon">☀️</span><span class="nav-label">Hoje</span></button>
   <button class="nav-btn" onclick="switchView('semana')"><span class="nav-icon">📅</span><span class="nav-label">Semana</span></button>
-  <button class="nav-btn" onclick="switchView('refeicoes')"><span class="nav-icon">🥗</span><span class="nav-label">Refeições</span></button>
   <button class="nav-btn" onclick="switchView('tarefas')"><span class="nav-icon">✅</span><span class="nav-label">Tarefas</span></button>
   <button class="nav-btn" onclick="switchView('notas')"><span class="nav-icon">💬</span><span class="nav-label">Recados</span></button>
+  <button class="nav-btn" onclick="switchView('mario')"><span class="nav-icon">💙</span><span class="nav-label">Mário</span></button>
 </div>
 
 <script>
@@ -168,27 +279,13 @@
   ];
 
   const DEFAULT_MEALS = [
-    { dia:'seg', slot:'pa', valor:'Overnight oats' },
-    { dia:'seg', slot:'al', valor:'Frango + arroz' },
-    { dia:'seg', slot:'jan', valor:'Salmão + legumes' },
-    { dia:'ter', slot:'pa', valor:'Iogurte + granola' },
-    { dia:'ter', slot:'al', valor:'Salmão restante' },
-    { dia:'ter', slot:'jan', valor:'Massa + grão' },
-    { dia:'qua', slot:'pa', valor:'Porridge + banana' },
-    { dia:'qua', slot:'al', valor:'Sopa + pão' },
-    { dia:'qua', slot:'jan', valor:'Frango + batata doce' },
-    { dia:'qui', slot:'pa', valor:'Aveia + frutos vermelhos' },
-    { dia:'qui', slot:'al', valor:'Massa restante' },
-    { dia:'qui', slot:'jan', valor:'Salmão fresco' },
-    { dia:'sex', slot:'pa', valor:'Aveia + fruta' },
-    { dia:'sex', slot:'al', valor:'Sobras meal prep' },
-    { dia:'sex', slot:'jan', valor:'Omelete / leve' },
-    { dia:'sab', slot:'pa', valor:'Ovos mexidos + torrada' },
-    { dia:'sab', slot:'al', valor:'Salmão + arroz' },
-    { dia:'sab', slot:'jan', valor:'Massa + tofu' },
-    { dia:'dom', slot:'pa', valor:'Porridge família' },
-    { dia:'dom', slot:'al', valor:'Refeição leve' },
-    { dia:'dom', slot:'jan', valor:'Frango + batata doce' },
+    { dia:'seg', slot:'pa', valor:'Overnight oats' }, { dia:'seg', slot:'al', valor:'Frango + arroz' }, { dia:'seg', slot:'jan', valor:'Salmão + legumes' },
+    { dia:'ter', slot:'pa', valor:'Iogurte + granola' }, { dia:'ter', slot:'al', valor:'Salmão restante' }, { dia:'ter', slot:'jan', valor:'Massa + grão' },
+    { dia:'qua', slot:'pa', valor:'Porridge + banana' }, { dia:'qua', slot:'al', valor:'Sopa + pão' }, { dia:'qua', slot:'jan', valor:'Frango + batata doce' },
+    { dia:'qui', slot:'pa', valor:'Aveia + frutos vermelhos' }, { dia:'qui', slot:'al', valor:'Massa restante' }, { dia:'qui', slot:'jan', valor:'Salmão fresco' },
+    { dia:'sex', slot:'pa', valor:'Aveia + fruta' }, { dia:'sex', slot:'al', valor:'Sobras meal prep' }, { dia:'sex', slot:'jan', valor:'Omelete / leve' },
+    { dia:'sab', slot:'pa', valor:'Ovos mexidos + torrada' }, { dia:'sab', slot:'al', valor:'Salmão + arroz' }, { dia:'sab', slot:'jan', valor:'Massa + tofu' },
+    { dia:'dom', slot:'pa', valor:'Porridge família' }, { dia:'dom', slot:'al', valor:'Refeição leve' }, { dia:'dom', slot:'jan', valor:'Frango + batata doce' },
   ];
 
   async function init() {
@@ -226,7 +323,7 @@
     currentView = v;
     document.querySelectorAll('.view').forEach(el => el.classList.toggle('active', el.id === 'view-'+v));
     document.querySelectorAll('.nav-btn').forEach((b,i) => {
-      b.classList.toggle('active', ['hoje','semana','refeicoes','tarefas','notas'][i] === v);
+      b.classList.toggle('active', ['hoje','semana','tarefas','notas','mario'][i] === v);
     });
     renderCurrentView();
   }
@@ -236,7 +333,39 @@
     else if (currentView === 'refeicoes') renderMeals();
     else if (currentView === 'tarefas') renderTarefas();
     else if (currentView === 'notas') renderNotas();
+    else if (currentView === 'mario') updateMarioProgress();
   }
+
+  function switchMarioTab(tab) {
+    document.querySelectorAll('.mario-tab').forEach((t,i) => t.classList.toggle('active', ['rotina','exercicio','colesterol'][i] === tab));
+    document.querySelectorAll('.mario-subview').forEach(v => v.classList.toggle('active', v.id === 'msv-'+tab));
+  }
+
+  function toggleMarioBlock(el) {
+    el.classList.toggle('done');
+    el.querySelector('.mario-title').classList.toggle('done-text', el.classList.contains('done'));
+    updateMarioProgress();
+  }
+
+  function updateMarioProgress() {
+    const blocks = document.querySelectorAll('#msv-rotina .mario-block');
+    const done = document.querySelectorAll('#msv-rotina .mario-block.done');
+    const pct = blocks.length ? Math.round(done.length / blocks.length * 100) : 0;
+    const fill = document.getElementById('mario-prog-fill');
+    const count = document.getElementById('mario-prog-count');
+    if (fill) fill.style.width = pct + '%';
+    if (count) count.textContent = done.length + '/' + blocks.length;
+  }
+
+  function resetMario() {
+    document.querySelectorAll('#msv-rotina .mario-block.done').forEach(b => {
+      b.classList.remove('done');
+      b.querySelector('.mario-title').classList.remove('done-text');
+    });
+    updateMarioProgress();
+  }
+
+  function toggleExDayM(id) { document.getElementById(id).classList.toggle('open'); }
 
   function whoTag(who) {
     const cfg = {
@@ -251,39 +380,19 @@
   async function renderHoje() {
     const { data, error } = await sb.from('hoje').select('*').order('id');
     if (error) { document.getElementById('view-hoje').innerHTML = '<div class="loading">⚠️ Erro ao ligar. Verifica as chaves do Supabase.</div>'; return; }
-    const cats = {
-      manha: { label:'🌅 Manhã', color:'#D97706' },
-      trabalho: { label:'💼 Trabalho', color:'var(--mario)' },
-      familia: { label:'👨‍👩‍👧 Família', color:'var(--green)' },
-      casal: { label:'♡ Casal', color:'var(--catia)' },
-      noite: { label:'🌙 Noite', color:'var(--purple)' },
-    };
+    const cats = { manha:{label:'🌅 Manhã',color:'#D97706'}, trabalho:{label:'💼 Trabalho',color:'var(--mario)'}, familia:{label:'👨‍👩‍👧 Família',color:'var(--green)'}, casal:{label:'♡ Casal',color:'var(--catia)'}, noite:{label:'🌙 Noite',color:'var(--purple)'} };
     const done = data.filter(i=>i.done).length;
     const pct = data.length ? Math.round(done/data.length*100) : 0;
-    let html = `
-      <div class="section-title" style="margin-bottom:0.3rem">Bom dia! <em>Hoje</em></div>
-      <div class="section-sub">Toca para marcar — os dois vêem em tempo real.</div>
-      <div class="day-progress-mini">
-        <span class="dpm-label">Progresso do dia</span>
-        <div class="dpm-bar"><div class="dpm-fill" style="width:${pct}%"></div></div>
-        <span class="dpm-count">${done}/${data.length}</span>
-      </div>`;
+    let html = `<div class="section-title" style="margin-bottom:0.3rem">Bom dia! <em>Hoje</em></div><div class="section-sub">Toca para marcar — os dois vêem em tempo real.</div>
+    <div class="day-progress-mini"><span class="dpm-label">Progresso do dia</span><div class="dpm-bar"><div class="dpm-fill" style="width:${pct}%"></div></div><span class="dpm-count">${done}/${data.length}</span></div>`;
     Object.entries(cats).forEach(([cat, info]) => {
       const items = data.filter(i=>i.cat===cat);
       if (!items.length) return;
       html += `<div class="card"><div class="card-title" style="color:${info.color}">${info.label}</div>`;
-      items.forEach(item => {
-        html += `<div class="check-item ${item.done?'done':''}" onclick="toggleHoje(${item.id},${item.done})">
-          <div class="ci-box">✓</div>
-          <div class="ci-content"><div class="ci-text">${item.text}</div></div>
-          ${whoTag(item.who)}</div>`;
-      });
+      items.forEach(item => { html += `<div class="check-item ${item.done?'done':''}" onclick="toggleHoje(${item.id},${item.done})"><div class="ci-box">✓</div><div class="ci-content"><div class="ci-text">${item.text}</div></div>${whoTag(item.who)}</div>`; });
       html += `</div>`;
     });
-    html += `<div class="add-row">
-      <input class="add-input" id="hoje-input" placeholder="Adicionar tarefa..." onkeydown="if(event.key==='Enter')addHoje()">
-      <button class="add-btn" onclick="addHoje()">+</button>
-    </div>
+    html += `<div class="add-row"><input class="add-input" id="hoje-input" placeholder="Adicionar tarefa..." onkeydown="if(event.key==='Enter')addHoje()"><button class="add-btn" onclick="addHoje()">+</button></div>
     <button class="clear-btn" onclick="resetHoje()">↺ Reiniciar dia</button>`;
     document.getElementById('view-hoje').innerHTML = html;
   }
@@ -314,16 +423,13 @@
     const dayLabels = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
     const slots = ['pa','al','jan'];
     const slotLabels = ['☀️ Peq. Almoço','🍱 Almoço','🌙 Jantar'];
-    let html = `<div class="section-title" style="margin-bottom:0.3rem">Refeições <em>da semana</em></div>
-    <div class="section-sub">Toca em qualquer slot para editar.</div>`;
+    let html = `<div class="section-title" style="margin-bottom:0.3rem">Refeições <em>da semana</em></div><div class="section-sub">Toca em qualquer slot para editar.</div>`;
     slots.forEach((slot, si) => {
       html += `<div class="meal-row-label">${slotLabels[si]}</div><div class="meals-week">`;
       days.forEach((day, di) => {
         const row = data?.find(r=>r.dia===day && r.slot===slot);
         const val = row?.valor || '';
-        html += `<div><div class="meal-day-label">${dayLabels[di]}</div>
-          <div class="meal-slot-box ${val?'filled':''}" onclick="editMeal(${row?.id||'null'},'${day}','${slot}','${val.replace(/'/g,"\\'")}')">
-            ${val||'+'}</div></div>`;
+        html += `<div><div class="meal-day-label">${dayLabels[di]}</div><div class="meal-slot-box ${val?'filled':''}" onclick="editMeal(${row?.id||'null'},'${day}','${slot}','${val.replace(/'/g,"\\'")}'">${val||'+'}</div></div>`;
       });
       html += `</div>`;
     });
@@ -343,30 +449,12 @@
     const { data: casa } = await sb.from('tarefas_casa').select('*').order('id');
     function listHtml(items, table) {
       if (!items?.length) return '<div class="empty">Sem itens.</div>';
-      return items.map(item => `<div class="check-item ${item.done?'done':''}" onclick="toggleTarefa('${table}',${item.id},${item.done})">
-        <div class="ci-box">✓</div>
-        <div class="ci-content"><div class="ci-text">${item.text}</div></div>
-        ${whoTag(item.who)}</div>`).join('');
+      return items.map(item => `<div class="check-item ${item.done?'done':''}" onclick="toggleTarefa('${table}',${item.id},${item.done})"><div class="ci-box">✓</div><div class="ci-content"><div class="ci-text">${item.text}</div></div>${whoTag(item.who)}</div>`).join('');
     }
     document.getElementById('view-tarefas').innerHTML = `
-      <div class="section-title" style="margin-bottom:0.3rem">Tarefas <em>& compras</em></div>
-      <div class="section-sub">Partilhadas entre os dois.</div>
-      <div class="card">
-        <div class="card-title">🛒 Lista de compras <span style="color:var(--soft);font-weight:300">${compras?.filter(i=>i.done).length||0}/${compras?.length||0}</span></div>
-        ${listHtml(compras,'compras')}
-        <div class="add-row">
-          <input class="add-input" id="compras-input" placeholder="Adicionar item..." onkeydown="if(event.key==='Enter')addTarefa('compras')">
-          <button class="add-btn" onclick="addTarefa('compras')">+</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">🏠 Tarefas de casa <span style="color:var(--soft);font-weight:300">${casa?.filter(i=>i.done).length||0}/${casa?.length||0}</span></div>
-        ${listHtml(casa,'tarefas_casa')}
-        <div class="add-row">
-          <input class="add-input" id="tarefas_casa-input" placeholder="Adicionar tarefa..." onkeydown="if(event.key==='Enter')addTarefa('tarefas_casa')">
-          <button class="add-btn" onclick="addTarefa('tarefas_casa')">+</button>
-        </div>
-      </div>
+      <div class="section-title" style="margin-bottom:0.3rem">Tarefas <em>& compras</em></div><div class="section-sub">Partilhadas entre os dois.</div>
+      <div class="card"><div class="card-title">🛒 Lista de compras <span style="color:var(--soft);font-weight:300">${compras?.filter(i=>i.done).length||0}/${compras?.length||0}</span></div>${listHtml(compras,'compras')}<div class="add-row"><input class="add-input" id="compras-input" placeholder="Adicionar item..." onkeydown="if(event.key==='Enter')addTarefa('compras')"><button class="add-btn" onclick="addTarefa('compras')">+</button></div></div>
+      <div class="card"><div class="card-title">🏠 Tarefas de casa <span style="color:var(--soft);font-weight:300">${casa?.filter(i=>i.done).length||0}/${casa?.length||0}</span></div>${listHtml(casa,'tarefas_casa')}<div class="add-row"><input class="add-input" id="tarefas_casa-input" placeholder="Adicionar tarefa..." onkeydown="if(event.key==='Enter')addTarefa('tarefas_casa')"><button class="add-btn" onclick="addTarefa('tarefas_casa')">+</button></div></div>
       <button class="clear-btn" onclick="clearDone()">Limpar concluídas</button>`;
   }
 
@@ -392,27 +480,16 @@
 
   async function renderNotas() {
     const { data } = await sb.from('recados').select('*').order('created_at', { ascending:false });
-    const notesHtml = !data?.length
-      ? '<div class="empty">Ainda não há recados. Escreve o primeiro! 💬</div>'
+    const notesHtml = !data?.length ? '<div class="empty">Ainda não há recados. Escreve o primeiro! 💬</div>'
       : data.map(n => {
           const time = new Date(n.created_at).toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
           const date = new Date(n.created_at).toLocaleDateString('pt-PT',{day:'numeric',month:'short'});
-          return `<div class="note-item ${n.who}">
-            <div class="note-header">
-              <span class="note-who" style="color:${n.who==='catia'?'var(--catia)':'var(--mario)'}">${n.who==='catia'?'Cátia 💗':'Mário 💙'}</span>
-              <span class="note-time">${date} ${time}</span>
-              <span class="note-delete" onclick="deleteNota(${n.id})">✕</span>
-            </div>
-            <div class="note-text">${n.text}</div>
-          </div>`;
+          return `<div class="note-item ${n.who}"><div class="note-header"><span class="note-who" style="color:${n.who==='catia'?'var(--catia)':'var(--mario)'}">${n.who==='catia'?'Cátia 💗':'Mário 💙'}</span><span class="note-time">${date} ${time}</span><span class="note-delete" onclick="deleteNota(${n.id})">✕</span></div><div class="note-text">${n.text}</div></div>`;
         }).join('');
     document.getElementById('view-notas').innerHTML = `
-      <div class="section-title" style="margin-bottom:0.3rem">Recados <em>entre nós</em></div>
-      <div class="section-sub">Deixa um recado — o outro vê quando abrir a app.</div>
+      <div class="section-title" style="margin-bottom:0.3rem">Recados <em>entre nós</em></div><div class="section-sub">Deixa um recado — o outro vê quando abrir a app.</div>
       <textarea class="note-input-area" id="nota-input" placeholder="Escreve um recado para o ${currentUser==='catia'?'Mário':'Cátia'}..."></textarea>
-      <button onclick="addNota()" style="width:100%;background:${currentUser==='catia'?'var(--catia)':'var(--mario)'};border:none;border-radius:12px;padding:0.7rem;color:white;font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;margin-bottom:1rem;">
-        Enviar recado
-      </button>
+      <button onclick="addNota()" style="width:100%;background:${currentUser==='catia'?'var(--catia)':'var(--mario)'};border:none;border-radius:12px;padding:0.7rem;color:white;font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;margin-bottom:1rem;">Enviar recado</button>
       ${notesHtml}`;
   }
 
