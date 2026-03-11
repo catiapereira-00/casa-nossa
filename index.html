@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Casa Nossa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --bg: #F8F6F1; --card: #FFFFFF; --warm: #EDE8DF; --border: rgba(0,0,0,0.08);
+    --catia: #DB2777; --catia-bg: #FDF2F8; --mario: #2563EB; --mario-bg: #EFF6FF;
+    --green: #16A34A; --green-bg: #F0FDF4; --orange: #EA580C; --orange-bg: #FFF7ED;
+    --purple: #7C3AED; --purple-bg: #F5F3FF; --text: #1C1A16; --muted: #78716C; --soft: #A8A29E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; max-width: 480px; margin: 0 auto; padding-bottom: 90px; }
+  .topbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 1rem 1.2rem 0.8rem; position: sticky; top: 0; z-index: 100; }
+  .topbar-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+  .app-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; }
+  .app-title em { font-style: italic; color: var(--catia); }
+  .user-toggle { display: flex; gap: 0.3rem; background: var(--bg); border-radius: 99px; padding: 0.25rem; }
+  .user-btn { padding: 0.25rem 0.7rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; background: none; color: var(--soft); font-family: 'Outfit', sans-serif; }
+  .user-btn.active-catia { background: var(--catia); color: white; }
+  .user-btn.active-mario { background: var(--mario); color: white; }
+  .date-row { font-size: 0.72rem; color: var(--soft); }
+  .date-row strong { color: var(--text); font-weight: 500; }
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--card); border-top: 1px solid var(--border); display: flex; z-index: 100; padding: 0.5rem 0 0.7rem; }
+  .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; padding: 0.3rem; cursor: pointer; border: none; background: none; font-family: 'Outfit', sans-serif; transition: all 0.15s; }
+  .nav-icon { font-size: 1.3rem; }
+  .nav-label { font-size: 0.58rem; font-weight: 500; color: var(--soft); text-transform: uppercase; letter-spacing: 0.06em; }
+  .nav-btn.active .nav-label { color: var(--catia); }
+  .nav-btn.active .nav-icon { transform: scale(1.1); }
+  .view { display: none; padding: 1rem 1rem 1.5rem; animation: fadeUp 0.3s ease both; }
+  .view.active { display: block; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .section-title em { font-style: italic; color: var(--catia); }
+  .section-sub { font-size: 0.75rem; color: var(--muted); font-weight: 300; margin-bottom: 1rem; line-height: 1.4; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1rem 1.1rem; margin-bottom: 0.7rem; }
+  .card-title { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--soft); margin-bottom: 0.7rem; display: flex; align-items: center; justify-content: space-between; }
+  .check-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+  .check-item:last-of-type { border-bottom: none; }
+  .ci-box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border); background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: transparent; transition: all 0.2s; }
+  .check-item.done .ci-box { background: var(--green); border-color: var(--green); color: white; }
+  .check-item.done .ci-text { text-decoration: line-through; color: var(--soft); }
+  .ci-content { flex: 1; min-width: 0; }
+  .ci-text { font-size: 0.85rem; font-weight: 400; color: var(--text); line-height: 1.3; }
+  .ci-who { font-size: 0.6rem; font-weight: 700; padding: 0.12rem 0.4rem; border-radius: 99px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.05em; }
+  .add-row { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
+  .add-input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.82rem; font-family: 'Outfit', sans-serif; color: var(--text); outline: none; }
+  .add-input:focus { border-color: var(--catia); }
+  .add-input::placeholder { color: var(--soft); }
+  .add-btn { background: var(--catia); border: none; border-radius: 10px; padding: 0.55rem 0.9rem; color: white; font-size: 1rem; cursor: pointer; flex-shrink: 0; }
+  .day-progress-mini { display: flex; align-items: center; gap: 0.6rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 0.75rem 1rem; margin-bottom: 0.8rem; }
+  .dpm-label { font-size: 0.75rem; color: var(--muted); flex: 1; }
+  .dpm-bar { flex: 2; height: 4px; background: var(--warm); border-radius: 99px; overflow: hidden; }
+  .dpm-fill { height: 100%; background: linear-gradient(90deg, var(--catia), var(--mario)); border-radius: 99px; transition: width 0.4s; }
+  .dpm-count { font-size: 0.72rem; color: var(--soft); font-weight: 500; }
+  .meal-row-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--soft); font-weight: 600; margin: 0.8rem 0 0.4rem; }
+  .meals-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.3rem; margin-bottom: 0.3rem; }
+  .meal-day-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft); font-weight: 600; text-align: center; margin-bottom: 0.25rem; }
+  .meal-slot-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.3rem 0.2rem; text-align: center; font-size: 0.58rem; color: var(--muted); min-height: 36px; display: flex; align-items: center; justify-content: center; line-height: 1.3; cursor: pointer; }
+  .meal-slot-box.filled { background: var(--green-bg); border-color: rgba(22,163,74,0.2); color: var(--green); font-weight: 500; }
+  .note-item { background: var(--bg); border-radius: 12px; padding: 0.75rem 0.9rem; margin-bottom: 0.5rem; border-left: 3px solid var(--catia); }
+  .note-item.mario { border-left-color: var(--mario); }
+  .note-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; }
+  .note-who { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; }
+  .note-time { font-size: 0.62rem; color: var(--soft); margin-left: auto; }
+  .note-delete { font-size: 0.7rem; color: var(--soft); cursor: pointer; margin-left: 0.3rem; }
+  .note-text { font-size: 0.82rem; color: var(--text); font-weight: 300; line-height: 1.5; }
+  .note-input-area { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.9rem; font-size: 0.82rem; font-family: 'Outfit', sans-serif; color: var(--text); width: 100%; resize: none; outline: none; min-height: 70px; margin-bottom: 0.5rem; }
+  .note-input-area:focus { border-color: var(--catia); }
+  .week-day-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 0.85rem 1rem; margin-bottom: 0.6rem; }
+  .wdc-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+  .wdc-day { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; flex: 1; }
+  .wdc-type { font-size: 0.6rem; font-weight: 600; padding: 0.12rem 0.45rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .wdc-items { display: flex; flex-direction: column; gap: 0.25rem; }
+  .wdc-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.73rem; color: var(--muted); }
+  .wdc-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .loading { text-align: center; padding: 2rem; color: var(--soft); font-size: 0.85rem; }
+  .empty { text-align: center; padding: 1.5rem; color: var(--soft); font-size: 0.82rem; }
+  .clear-btn { background: none; border: 1px solid var(--border); color: var(--soft); font-family: 'Outfit', sans-serif; font-size: 0.72rem; padding: 0.4rem 1rem; border-radius: 99px; cursor: pointer; display: block; margin: 0.5rem auto 0; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-row">
+    <div class="app-title">Casa <em>nossa</em></div>
+    <div class="user-toggle">
+      <button class="user-btn active-catia" id="btn-catia" onclick="setUser('catia')">Cátia</button>
+      <button class="user-btn" id="btn-mario" onclick="setUser('mario')">Mário</button>
+    </div>
+  </div>
+  <div class="date-row" id="dateRow"></div>
+</div>
+
+<div class="view active" id="view-hoje"><div class="loading">⏳ A ligar à base de dados...</div></div>
+<div class="view" id="view-semana">
+  <div class="section-title">Semana <em>completa</em></div>
+  <div class="section-sub">Visão geral dos 7 dias.</div>
+  <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Segunda-feira</div><span class="wdc-type" style="background:#EFF6FF;color:#2563EB">Escritório</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#D97706"></div>6:30 Acordar — 30 min só Cátia</div><div class="wdc-item"><div class="wdc-dot" style="background:#EA580C"></div>Exercício — fortalecimento 20 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>9:30–18:00 Trabalho</div><div class="wdc-item"><div class="wdc-dot" style="background:#16A34A"></div>19:30 Diogo — presença total</div><div class="wdc-item"><div class="wdc-dot" style="background:#DB2777"></div>21:00 Jantar de casal ♡</div></div></div>
+  <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Terça-feira</div><span class="wdc-type" style="background:#EFF6FF;color:#2563EB">Escritório</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#D97706"></div>6:30 Acordar</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>9:30–18:00 Trabalho</div><div class="wdc-item"><div class="wdc-dot" style="background:#16A34A"></div>19:30 Diogo</div><div class="wdc-item"><div class="wdc-dot" style="background:#DB2777"></div>21:00 Jantar de casal ♡</div></div></div>
+  <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Quarta-feira</div><span class="wdc-type" style="background:#ECFEFF;color:#0891B2">Casa 🏠</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#EA580C"></div>Exercício — força tronco 25 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>9:00–17:30 Trabalho em casa</div><div class="wdc-item"><div class="wdc-dot" style="background:#7C3AED"></div>17:30 Momento só Cátia 🧘</div><div class="wdc-item"><div class="wdc-dot" style="background:#DB2777"></div>21:00 Noite de casal longa ♡</div></div></div>
+  <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Quinta-feira</div><span class="wdc-type" style="background:#EFF6FF;color:#2563EB">Escritório</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#D97706"></div>6:30 Acordar</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>9:30–18:00 Trabalho</div><div class="wdc-item"><div class="wdc-dot" style="background:#16A34A"></div>19:30 Diogo</div><div class="wdc-item"><div class="wdc-dot" style="background:#DB2777"></div>21:00 Jantar casal — salmão fresco ♡</div></div></div>
+  <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Sexta-feira</div><span class="wdc-type" style="background:#ECFEFF;color:#0891B2">Casa 🏠</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#EA580C"></div>Exercício — força + bicicleta 30 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>9:00–17:30 Trabalho em casa</div><div class="wdc-item"><div class="wdc-dot" style="background:#7C3AED"></div>17:30 Momento só Cátia 🧘</div><div class="wdc-item"><div class="wdc-dot" style="background:#DB2777"></div>21:00 Noite de casal ♡</div></div></div>
+  <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Sábado</div><span class="wdc-type" style="background:#F0FDF4;color:#16A34A">Família 🐕</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#EA580C"></div>Caminhada família + cães 30–45 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#16A34A"></div>Dia de família sem agenda</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>Compras da semana</div><div class="wdc-item"><div class="wdc-dot" style="background:#DB2777"></div>21:00 Noite de casal ♡</div></div></div>
+  <div class="week-day-card"><div class="wdc-header"><div class="wdc-day">Domingo</div><span class="wdc-type" style="background:#F7FEE7;color:#65A30D">Prep 🥗</span></div><div class="wdc-items"><div class="wdc-item"><div class="wdc-dot" style="background:#7C3AED"></div>Mobilidade suave 10 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#65A30D"></div>14:00 Meal prep — 2h</div><div class="wdc-item"><div class="wdc-dot" style="background:#2563EB"></div>21:00 Preparar semana 10 min</div><div class="wdc-item"><div class="wdc-dot" style="background:#D97706"></div>Dormir cedo — 22:30</div></div></div>
+</div>
+<div class="view" id="view-refeicoes"><div class="loading">⏳ A carregar...</div></div>
+<div class="view" id="view-tarefas"><div class="loading">⏳ A carregar...</div></div>
+<div class="view" id="view-notas"><div class="loading">⏳ A carregar...</div></div>
+
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="switchView('hoje')"><span class="nav-icon">☀️</span><span class="nav-label">Hoje</span></button>
+  <button class="nav-btn" onclick="switchView('semana')"><span class="nav-icon">📅</span><span class="nav-label">Semana</span></button>
+  <button class="nav-btn" onclick="switchView('refeicoes')"><span class="nav-icon">🥗</span><span class="nav-label">Refeições</span></button>
+  <button class="nav-btn" onclick="switchView('tarefas')"><span class="nav-icon">✅</span><span class="nav-label">Tarefas</span></button>
+  <button class="nav-btn" onclick="switchView('notas')"><span class="nav-icon">💬</span><span class="nav-label">Recados</span></button>
+</div>
+
+<script>
+  // ── SUBSTITUI AQUI AS TUAS CHAVES ──────────────────────────
+  const SUPABASE_URL = 'https://qgwremrynrqvxfsgfwbv.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnd3JlbXJ5bnJxdnhmc2dmd2J2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDQ5OTUsImV4cCI6MjA4ODgyMDk5NX0.l9AonLJ5mciYW4POWKuV337Eqy3Up0HNsF-37E4lYeI';
+  // ───────────────────────────────────────────────────────────
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  let currentUser = 'catia';
+  let currentView = 'hoje';
+
+  const DEFAULT_HOJE = [
+    { text:'Acordar às 6:30 — 30 min só teus', who:'catia', cat:'manha', done:false },
+    { text:'Despachar o Diogo em equipa', who:'ambos', cat:'manha', done:false },
+    { text:'Exercício — ver plano do dia', who:'catia', cat:'manha', done:false },
+    { text:'Overnight oats / pequeno-almoço', who:'catia', cat:'manha', done:false },
+    { text:'3 prioridades do trabalho', who:'catia', cat:'trabalho', done:false },
+    { text:'Sair às 18:00', who:'catia', cat:'trabalho', done:false },
+    { text:'Diogo — presença total 19:30', who:'ambos', cat:'familia', done:false },
+    { text:'Adormecer o Diogo', who:'ambos', cat:'familia', done:false },
+    { text:'Jantar de casal — sem ecrãs ♡', who:'ambos', cat:'casal', done:false },
+    { text:'Check-in do dia ♡', who:'ambos', cat:'casal', done:false },
+    { text:'Preparar overnight oats (5 min)', who:'catia', cat:'noite', done:false },
+    { text:'Ecrãs off + leitura', who:'catia', cat:'noite', done:false },
+  ];
+
+  const DEFAULT_COMPRAS = [
+    { text:'Salmão (4 filetes)', who:'mario', done:false },
+    { text:'Frango coxas (~1kg)', who:'mario', done:false },
+    { text:'Ovos (1 dúzia)', who:'mario', done:false },
+    { text:'Cenouras (1kg)', who:'mario', done:false },
+    { text:'Espinafres', who:'mario', done:false },
+    { text:'Batata doce (500g)', who:'mario', done:false },
+    { text:'Frutos vermelhos', who:'catia', done:false },
+    { text:'Bananas', who:'catia', done:false },
+    { text:'Leite de soja', who:'catia', done:false },
+    { text:'Grão (2 latas)', who:'mario', done:false },
+  ];
+
+  const DEFAULT_CASA = [
+    { text:'Aspirar sala e quartos', who:'ambos', done:false },
+    { text:'Lavar roupa', who:'ambos', done:false },
+    { text:'Limpar casa de banho', who:'ambos', done:false },
+    { text:'Lavar louça / esvaziar máquina', who:'ambos', done:false },
+    { text:'Meal prep de domingo', who:'catia', done:false },
+    { text:'Preparar mochila do Diogo', who:'ambos', done:false },
+  ];
+
+  const DEFAULT_MEALS = [
+    { dia:'seg', slot:'pa', valor:'Overnight oats' },
+    { dia:'seg', slot:'al', valor:'Frango + arroz' },
+    { dia:'seg', slot:'jan', valor:'Salmão + legumes' },
+    { dia:'ter', slot:'pa', valor:'Iogurte + granola' },
+    { dia:'ter', slot:'al', valor:'Salmão restante' },
+    { dia:'ter', slot:'jan', valor:'Massa + grão' },
+    { dia:'qua', slot:'pa', valor:'Porridge + banana' },
+    { dia:'qua', slot:'al', valor:'Sopa + pão' },
+    { dia:'qua', slot:'jan', valor:'Frango + batata doce' },
+    { dia:'qui', slot:'pa', valor:'Aveia + frutos vermelhos' },
+    { dia:'qui', slot:'al', valor:'Massa restante' },
+    { dia:'qui', slot:'jan', valor:'Salmão fresco' },
+    { dia:'sex', slot:'pa', valor:'Aveia + fruta' },
+    { dia:'sex', slot:'al', valor:'Sobras meal prep' },
+    { dia:'sex', slot:'jan', valor:'Omelete / leve' },
+    { dia:'sab', slot:'pa', valor:'Ovos mexidos + torrada' },
+    { dia:'sab', slot:'al', valor:'Salmão + arroz' },
+    { dia:'sab', slot:'jan', valor:'Massa + tofu' },
+    { dia:'dom', slot:'pa', valor:'Porridge família' },
+    { dia:'dom', slot:'al', valor:'Refeição leve' },
+    { dia:'dom', slot:'jan', valor:'Frango + batata doce' },
+  ];
+
+  async function init() {
+    updateDate();
+    await seedIfEmpty();
+    renderHoje();
+  }
+
+  async function seedIfEmpty() {
+    const { data: h } = await sb.from('hoje').select('id').limit(1);
+    if (!h?.length) await sb.from('hoje').insert(DEFAULT_HOJE);
+    const { data: c } = await sb.from('compras').select('id').limit(1);
+    if (!c?.length) await sb.from('compras').insert(DEFAULT_COMPRAS);
+    const { data: t } = await sb.from('tarefas_casa').select('id').limit(1);
+    if (!t?.length) await sb.from('tarefas_casa').insert(DEFAULT_CASA);
+    const { data: m } = await sb.from('refeicoes').select('id').limit(1);
+    if (!m?.length) await sb.from('refeicoes').insert(DEFAULT_MEALS);
+  }
+
+  function setUser(u) {
+    currentUser = u;
+    document.getElementById('btn-catia').className = 'user-btn' + (u==='catia' ? ' active-catia' : '');
+    document.getElementById('btn-mario').className = 'user-btn' + (u==='mario' ? ' active-mario' : '');
+    renderCurrentView();
+  }
+
+  function updateDate() {
+    const days = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+    const months = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    const now = new Date();
+    document.getElementById('dateRow').innerHTML = `<strong>${days[now.getDay()]}</strong>, ${now.getDate()} ${months[now.getMonth()]}`;
+  }
+
+  function switchView(v) {
+    currentView = v;
+    document.querySelectorAll('.view').forEach(el => el.classList.toggle('active', el.id === 'view-'+v));
+    document.querySelectorAll('.nav-btn').forEach((b,i) => {
+      b.classList.toggle('active', ['hoje','semana','refeicoes','tarefas','notas'][i] === v);
+    });
+    renderCurrentView();
+  }
+
+  function renderCurrentView() {
+    if (currentView === 'hoje') renderHoje();
+    else if (currentView === 'refeicoes') renderMeals();
+    else if (currentView === 'tarefas') renderTarefas();
+    else if (currentView === 'notas') renderNotas();
+  }
+
+  function whoTag(who) {
+    const cfg = {
+      catia: { bg:'var(--catia-bg)', color:'var(--catia)', label:'Cátia' },
+      mario: { bg:'var(--mario-bg)', color:'var(--mario)', label:'Mário' },
+      ambos: { bg:'var(--green-bg)', color:'var(--green)', label:'Ambos' },
+    };
+    const c = cfg[who] || cfg.ambos;
+    return `<div class="ci-who" style="background:${c.bg};color:${c.color}">${c.label}</div>`;
+  }
+
+  async function renderHoje() {
+    const { data, error } = await sb.from('hoje').select('*').order('id');
+    if (error) { document.getElementById('view-hoje').innerHTML = '<div class="loading">⚠️ Erro ao ligar. Verifica as chaves do Supabase.</div>'; return; }
+    const cats = {
+      manha: { label:'🌅 Manhã', color:'#D97706' },
+      trabalho: { label:'💼 Trabalho', color:'var(--mario)' },
+      familia: { label:'👨‍👩‍👧 Família', color:'var(--green)' },
+      casal: { label:'♡ Casal', color:'var(--catia)' },
+      noite: { label:'🌙 Noite', color:'var(--purple)' },
+    };
+    const done = data.filter(i=>i.done).length;
+    const pct = data.length ? Math.round(done/data.length*100) : 0;
+    let html = `
+      <div class="section-title" style="margin-bottom:0.3rem">Bom dia! <em>Hoje</em></div>
+      <div class="section-sub">Toca para marcar — os dois vêem em tempo real.</div>
+      <div class="day-progress-mini">
+        <span class="dpm-label">Progresso do dia</span>
+        <div class="dpm-bar"><div class="dpm-fill" style="width:${pct}%"></div></div>
+        <span class="dpm-count">${done}/${data.length}</span>
+      </div>`;
+    Object.entries(cats).forEach(([cat, info]) => {
+      const items = data.filter(i=>i.cat===cat);
+      if (!items.length) return;
+      html += `<div class="card"><div class="card-title" style="color:${info.color}">${info.label}</div>`;
+      items.forEach(item => {
+        html += `<div class="check-item ${item.done?'done':''}" onclick="toggleHoje(${item.id},${item.done})">
+          <div class="ci-box">✓</div>
+          <div class="ci-content"><div class="ci-text">${item.text}</div></div>
+          ${whoTag(item.who)}</div>`;
+      });
+      html += `</div>`;
+    });
+    html += `<div class="add-row">
+      <input class="add-input" id="hoje-input" placeholder="Adicionar tarefa..." onkeydown="if(event.key==='Enter')addHoje()">
+      <button class="add-btn" onclick="addHoje()">+</button>
+    </div>
+    <button class="clear-btn" onclick="resetHoje()">↺ Reiniciar dia</button>`;
+    document.getElementById('view-hoje').innerHTML = html;
+  }
+
+  async function toggleHoje(id, current) {
+    await sb.from('hoje').update({ done: !current }).eq('id', id);
+    renderHoje();
+  }
+
+  async function addHoje() {
+    const input = document.getElementById('hoje-input');
+    const text = input.value.trim();
+    if (!text) return;
+    await sb.from('hoje').insert({ text, who: currentUser, cat:'noite', done:false });
+    input.value = '';
+    renderHoje();
+  }
+
+  async function resetHoje() {
+    if (!confirm('Reiniciar todas as tarefas?')) return;
+    await sb.from('hoje').update({ done:false }).neq('id',0);
+    renderHoje();
+  }
+
+  async function renderMeals() {
+    const { data } = await sb.from('refeicoes').select('*');
+    const days = ['seg','ter','qua','qui','sex','sab','dom'];
+    const dayLabels = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+    const slots = ['pa','al','jan'];
+    const slotLabels = ['☀️ Peq. Almoço','🍱 Almoço','🌙 Jantar'];
+    let html = `<div class="section-title" style="margin-bottom:0.3rem">Refeições <em>da semana</em></div>
+    <div class="section-sub">Toca em qualquer slot para editar.</div>`;
+    slots.forEach((slot, si) => {
+      html += `<div class="meal-row-label">${slotLabels[si]}</div><div class="meals-week">`;
+      days.forEach((day, di) => {
+        const row = data?.find(r=>r.dia===day && r.slot===slot);
+        const val = row?.valor || '';
+        html += `<div><div class="meal-day-label">${dayLabels[di]}</div>
+          <div class="meal-slot-box ${val?'filled':''}" onclick="editMeal(${row?.id||'null'},'${day}','${slot}','${val.replace(/'/g,"\\'")}')">
+            ${val||'+'}</div></div>`;
+      });
+      html += `</div>`;
+    });
+    document.getElementById('view-refeicoes').innerHTML = html;
+  }
+
+  async function editMeal(id, dia, slot, current) {
+    const newVal = prompt('Refeição:', current);
+    if (newVal === null) return;
+    if (id && id !== 'null') await sb.from('refeicoes').update({ valor: newVal.trim() }).eq('id', id);
+    else await sb.from('refeicoes').insert({ dia, slot, valor: newVal.trim() });
+    renderMeals();
+  }
+
+  async function renderTarefas() {
+    const { data: compras } = await sb.from('compras').select('*').order('id');
+    const { data: casa } = await sb.from('tarefas_casa').select('*').order('id');
+    function listHtml(items, table) {
+      if (!items?.length) return '<div class="empty">Sem itens.</div>';
+      return items.map(item => `<div class="check-item ${item.done?'done':''}" onclick="toggleTarefa('${table}',${item.id},${item.done})">
+        <div class="ci-box">✓</div>
+        <div class="ci-content"><div class="ci-text">${item.text}</div></div>
+        ${whoTag(item.who)}</div>`).join('');
+    }
+    document.getElementById('view-tarefas').innerHTML = `
+      <div class="section-title" style="margin-bottom:0.3rem">Tarefas <em>& compras</em></div>
+      <div class="section-sub">Partilhadas entre os dois.</div>
+      <div class="card">
+        <div class="card-title">🛒 Lista de compras <span style="color:var(--soft);font-weight:300">${compras?.filter(i=>i.done).length||0}/${compras?.length||0}</span></div>
+        ${listHtml(compras,'compras')}
+        <div class="add-row">
+          <input class="add-input" id="compras-input" placeholder="Adicionar item..." onkeydown="if(event.key==='Enter')addTarefa('compras')">
+          <button class="add-btn" onclick="addTarefa('compras')">+</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏠 Tarefas de casa <span style="color:var(--soft);font-weight:300">${casa?.filter(i=>i.done).length||0}/${casa?.length||0}</span></div>
+        ${listHtml(casa,'tarefas_casa')}
+        <div class="add-row">
+          <input class="add-input" id="tarefas_casa-input" placeholder="Adicionar tarefa..." onkeydown="if(event.key==='Enter')addTarefa('tarefas_casa')">
+          <button class="add-btn" onclick="addTarefa('tarefas_casa')">+</button>
+        </div>
+      </div>
+      <button class="clear-btn" onclick="clearDone()">Limpar concluídas</button>`;
+  }
+
+  async function toggleTarefa(table, id, current) {
+    await sb.from(table).update({ done: !current }).eq('id', id);
+    renderTarefas();
+  }
+
+  async function addTarefa(table) {
+    const input = document.getElementById(table+'-input');
+    const text = input.value.trim();
+    if (!text) return;
+    await sb.from(table).insert({ text, who: currentUser, done:false });
+    input.value = '';
+    renderTarefas();
+  }
+
+  async function clearDone() {
+    await sb.from('compras').delete().eq('done',true);
+    await sb.from('tarefas_casa').delete().eq('done',true);
+    renderTarefas();
+  }
+
+  async function renderNotas() {
+    const { data } = await sb.from('recados').select('*').order('created_at', { ascending:false });
+    const notesHtml = !data?.length
+      ? '<div class="empty">Ainda não há recados. Escreve o primeiro! 💬</div>'
+      : data.map(n => {
+          const time = new Date(n.created_at).toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
+          const date = new Date(n.created_at).toLocaleDateString('pt-PT',{day:'numeric',month:'short'});
+          return `<div class="note-item ${n.who}">
+            <div class="note-header">
+              <span class="note-who" style="color:${n.who==='catia'?'var(--catia)':'var(--mario)'}">${n.who==='catia'?'Cátia 💗':'Mário 💙'}</span>
+              <span class="note-time">${date} ${time}</span>
+              <span class="note-delete" onclick="deleteNota(${n.id})">✕</span>
+            </div>
+            <div class="note-text">${n.text}</div>
+          </div>`;
+        }).join('');
+    document.getElementById('view-notas').innerHTML = `
+      <div class="section-title" style="margin-bottom:0.3rem">Recados <em>entre nós</em></div>
+      <div class="section-sub">Deixa um recado — o outro vê quando abrir a app.</div>
+      <textarea class="note-input-area" id="nota-input" placeholder="Escreve um recado para o ${currentUser==='catia'?'Mário':'Cátia'}..."></textarea>
+      <button onclick="addNota()" style="width:100%;background:${currentUser==='catia'?'var(--catia)':'var(--mario)'};border:none;border-radius:12px;padding:0.7rem;color:white;font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;margin-bottom:1rem;">
+        Enviar recado
+      </button>
+      ${notesHtml}`;
+  }
+
+  async function addNota() {
+    const input = document.getElementById('nota-input');
+    const text = input.value.trim();
+    if (!text) return;
+    await sb.from('recados').insert({ who: currentUser, text });
+    input.value = '';
+    renderNotas();
+  }
+
+  async function deleteNota(id) {
+    await sb.from('recados').delete().eq('id', id);
+    renderNotas();
+  }
+
+  init();
+</script>
+</body>
+</html>
